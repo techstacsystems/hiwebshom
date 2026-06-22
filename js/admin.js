@@ -49,7 +49,28 @@ document.getElementById("login-form").addEventListener("submit", async e => {
   }
 });
 
+// Logout buttons (desktop + mobile)
 document.getElementById("logout-btn").addEventListener("click", () => signOut(auth));
+document.getElementById("mobile-logout-btn")?.addEventListener("click", () => signOut(auth));
+
+// ===== MOBILE SIDEBAR TOGGLE =====
+const sidebar = document.getElementById("admin-sidebar");
+const overlay = document.getElementById("mobile-sidebar-overlay");
+const sidebarToggle = document.getElementById("mobile-sidebar-toggle");
+
+function closeSidebar() {
+  sidebar?.classList.remove("open");
+  overlay?.classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+sidebarToggle?.addEventListener("click", () => {
+  sidebar?.classList.add("open");
+  overlay?.classList.add("open");
+  document.body.style.overflow = "hidden";
+});
+
+overlay?.addEventListener("click", closeSidebar);
 
 // ===== INIT =====
 async function initDashboard() {
@@ -59,6 +80,9 @@ async function initDashboard() {
   await Promise.all([loadOrders(), loadProducts()]);
   // After both load, update dashboard stats
   renderDashboardStats();
+  // Initialize image picker for add product form
+  buildImagePicker("add-img-picker", addSelectedImages, () => renderSelectedPreview("add-img-preview", addSelectedImages));
+  renderSelectedPreview("add-img-preview", addSelectedImages);
 }
 
 async function loadManifest() {
@@ -84,17 +108,24 @@ const tabTitles = {
   "add-product": "Dodaj proizvod"
 };
 
+function switchTab(key) {
+  document.querySelectorAll(".sidebar-nav-item").forEach(t => t.classList.remove("active"));
+  document.querySelector(`.sidebar-nav-item[data-tab="${key}"]`)?.classList.add("active");
+  Object.values(tabMap).forEach(id => document.getElementById(id)?.classList.remove("active"));
+  document.getElementById(tabMap[key])?.classList.add("active");
+  const topbarTitle = document.getElementById("topbar-title");
+  if (topbarTitle) topbarTitle.textContent = tabTitles[key] || "";
+  if (key === "add-product") resetAddForm();
+  closeSidebar();
+}
+
 document.querySelectorAll(".sidebar-nav-item").forEach(item => {
-  item.addEventListener("click", () => {
-    document.querySelectorAll(".sidebar-nav-item").forEach(t => t.classList.remove("active"));
-    item.classList.add("active");
-    const key = item.dataset.tab;
-    Object.values(tabMap).forEach(id => document.getElementById(id)?.classList.remove("active"));
-    document.getElementById(tabMap[key])?.classList.add("active");
-    document.getElementById("topbar-title").textContent = tabTitles[key] || "";
-    if (key === "add-product") resetAddForm();
-  });
+  item.addEventListener("click", () => switchTab(item.dataset.tab));
 });
+
+// Button handlers for tab switching
+document.getElementById("btn-view-all-orders")?.addEventListener("click", () => switchTab("orders"));
+document.getElementById("btn-add-product")?.addEventListener("click", () => switchTab("add-product"));
 
 // ===== DASHBOARD STATS =====
 function renderDashboardStats() {
@@ -132,8 +163,9 @@ async function loadOrders() {
     orders = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderOrders();
     // Update order stats
-    if (document.getElementById("stat-total-orders")) {
-      document.getElementById("stat-total-orders").textContent = orders.length;
+    const statTotal = document.getElementById("stat-total-orders");
+    if (statTotal) {
+      statTotal.textContent = orders.length;
       document.getElementById("stat-revenue").textContent = formatPrice(orders.reduce((s, o) => s + (o.total || 0), 0));
       const today = new Date().toDateString();
       document.getElementById("stat-today").textContent = orders.filter(o => o.createdAt && new Date(o.createdAt.toMillis()).toDateString() === today).length;
@@ -159,7 +191,7 @@ function renderOrders() {
     ).join("");
     return `
       <div class="order-row" id="order-${o.id}">
-        <div class="order-row-header" onclick="window._toggleOrder('${o.id}')">
+        <div class="order-row-header" data-order-id="${o.id}">
           <div class="order-meta">
             <span class="order-num">${escapeHtml(o.orderNumber || o.id.slice(0,8))}</span>
             <span class="order-date">${date}</span>
@@ -186,9 +218,15 @@ function renderOrders() {
         </div>
       </div>`;
   }).join("");
-}
 
-window._toggleOrder = id => document.getElementById(`order-${id}`)?.classList.toggle("expanded");
+  // Add click handlers for order expansion
+  el.querySelectorAll(".order-row-header").forEach(header => {
+    header.addEventListener("click", () => {
+      const orderId = header.dataset.orderId;
+      document.getElementById(`order-${orderId}`)?.classList.toggle("expanded");
+    });
+  });
+}
 
 // ===== PRODUCTS =====
 async function loadProducts() {
@@ -205,7 +243,7 @@ function renderProductsTable() {
   const tbody = document.getElementById("products-tbody");
   if (!tbody) return;
   if (!products.length) {
-    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--color-text-muted);">Nema proizvoda – dodajte prvi!</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--color-text-muted);">Nema proizvoda – dodajte prvi!</td></tr>`;
     return;
   }
   tbody.innerHTML = products.map(p => `
@@ -221,6 +259,7 @@ function renderProductsTable() {
         </div>
       </td>
       <td>${formatPrice(p.price)}</td>
+      <td>${p.ml ? `${p.ml} ml` : "–"}</td>
       <td>
         <span style="padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;
           background:${p.stock <= 0 ? "var(--color-error-light)" : p.stock <= 5 ? "var(--color-warning-light)" : "var(--color-success-light)"};
@@ -231,15 +270,23 @@ function renderProductsTable() {
       <td>${p.images?.length || 0}</td>
       <td>
         <div class="table-actions">
-          <button class="icon-btn icon-btn--edit" onclick="window._openEdit('${p.id}')" title="Uredi">
+          <button class="icon-btn icon-btn--edit" data-edit-id="${p.id}" title="Uredi">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" /></svg>
           </button>
-          <button class="icon-btn icon-btn--delete" onclick="window._openDelete('${p.id}')" title="Obriši">
+          <button class="icon-btn icon-btn--delete" data-delete-id="${p.id}" title="Obriši">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
           </button>
         </div>
       </td>
     </tr>`).join("");
+
+  // Add click handlers for edit/delete
+  tbody.querySelectorAll("[data-edit-id]").forEach(btn => {
+    btn.addEventListener("click", () => openEdit(btn.dataset.editId));
+  });
+  tbody.querySelectorAll("[data-delete-id]").forEach(btn => {
+    btn.addEventListener("click", () => openDelete(btn.dataset.deleteId));
+  });
 }
 
 // ===== IMAGE PICKER =====
@@ -312,6 +359,7 @@ function resetAddForm() {
   document.getElementById("p-name").value = "";
   document.getElementById("p-price").value = "";
   document.getElementById("p-desc").value = "";
+  document.getElementById("p-ml").value = "";
   document.getElementById("p-stock").value = "";
   document.getElementById("p-category").value = "";
   addSelectedImages.length = 0;
@@ -319,18 +367,11 @@ function resetAddForm() {
   renderSelectedPreview("add-img-preview", addSelectedImages);
 }
 
-// Build picker when tab opens
-document.querySelector('[data-tab="add-product"]').addEventListener("click", () => {
-  setTimeout(() => {
-    buildImagePicker("add-img-picker", addSelectedImages, () => renderSelectedPreview("add-img-preview", addSelectedImages));
-    renderSelectedPreview("add-img-preview", addSelectedImages);
-  }, 0);
-});
-
 document.getElementById("save-product-btn").addEventListener("click", async () => {
   const name = document.getElementById("p-name").value.trim();
   const price = parseFloat(document.getElementById("p-price").value);
   const desc = document.getElementById("p-desc").value.trim();
+  const ml = parseInt(document.getElementById("p-ml").value) || null;
   const stock = parseInt(document.getElementById("p-stock").value) || 0;
   const category = document.getElementById("p-category").value.trim();
 
@@ -344,7 +385,7 @@ document.getElementById("save-product-btn").addEventListener("click", async () =
   btn.innerHTML = `<span class="spinner"></span> Čuvanje...`;
 
   try {
-    await addDoc(collection(db, "products"), {
+    const productData = {
       name,
       description: desc,
       price,
@@ -352,12 +393,15 @@ document.getElementById("save-product-btn").addEventListener("click", async () =
       category,
       images: [...addSelectedImages],
       createdAt: serverTimestamp()
-    });
+    };
+    if (ml) productData.ml = ml;
+
+    await addDoc(collection(db, "products"), productData);
     showToast("Proizvod uspješno dodan!");
     resetAddForm();
     await loadProducts();
     renderDashboardStats();
-    document.querySelector('[data-tab="products"]').click();
+    switchTab("products");
   } catch (err) {
     console.error(err);
     showToast("Greška pri dodavanju proizvoda.", "error");
@@ -368,7 +412,7 @@ document.getElementById("save-product-btn").addEventListener("click", async () =
 });
 
 // ===== EDIT MODAL =====
-window._openEdit = id => {
+function openEdit(id) {
   const p = products.find(x => x.id === id);
   if (!p) return;
 
@@ -376,6 +420,7 @@ window._openEdit = id => {
   document.getElementById("modal-name").value = p.name || "";
   document.getElementById("modal-price").value = p.price ?? "";
   document.getElementById("modal-desc").value = p.description || "";
+  document.getElementById("modal-ml").value = p.ml || "";
   document.getElementById("modal-stock").value = p.stock ?? 0;
   document.getElementById("modal-category").value = p.category || "";
 
@@ -390,6 +435,7 @@ window._openEdit = id => {
     const name = document.getElementById("modal-name").value.trim();
     const price = parseFloat(document.getElementById("modal-price").value);
     const desc = document.getElementById("modal-desc").value.trim();
+    const ml = parseInt(document.getElementById("modal-ml").value) || null;
     const stock = parseInt(document.getElementById("modal-stock").value) || 0;
     const category = document.getElementById("modal-category").value.trim();
     if (!name || isNaN(price)) { showToast("Naziv i cijena su obavezni.", "error"); return; }
@@ -399,14 +445,17 @@ window._openEdit = id => {
     btn.innerHTML = `<span class="spinner"></span>`;
 
     try {
-      await updateDoc(doc(db, "products", id), {
+      const updateData = {
         name,
         description: desc,
         price,
         stock,
         category,
         images: [...editSelectedImages]
-      });
+      };
+      if (ml) updateData.ml = ml;
+
+      await updateDoc(doc(db, "products", id), updateData);
       showToast("Proizvod uspješno ažuriran!");
       closeModal("edit-modal");
       await loadProducts();
@@ -421,10 +470,13 @@ window._openEdit = id => {
   };
 
   openModal("edit-modal");
-};
+}
 
 // ===== DELETE MODAL =====
-window._openDelete = id => { document.getElementById("delete-product-id").value = id; openModal("delete-modal"); };
+function openDelete(id) {
+  document.getElementById("delete-product-id").value = id;
+  openModal("delete-modal");
+}
 
 document.getElementById("confirm-delete-btn").addEventListener("click", async () => {
   const id = document.getElementById("delete-product-id").value;

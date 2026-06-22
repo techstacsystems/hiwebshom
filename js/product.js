@@ -32,6 +32,7 @@ function renderProduct(p) {
   const images = p.images?.length ? p.images : [];
   const outOfStock = p.stock <= 0;
   const lowStock = p.stock > 0 && p.stock <= 5;
+  const mlDisplay = p.ml ? ` <span style="font-size:0.9rem;font-weight:400;color:var(--color-text-muted);">(${p.ml} ml)</span>` : "";
 
   const stockBadge = outOfStock
     ? `<span class="product-info__stock stock--out"><span class="stock-dot"></span>Nema na zalihi</span>`
@@ -56,7 +57,7 @@ function renderProduct(p) {
       </div>
       <div class="product-info">
         ${p.category ? `<div class="product-info__category">${escapeHtml(p.category)}</div>` : ""}
-        <h1 class="product-info__name heading-serif">${escapeHtml(p.name)}</h1>
+        <h1 class="product-info__name heading-serif">${escapeHtml(p.name)}${mlDisplay}</h1>
         <div class="product-info__price">${formatPrice(p.price)}</div>
         <div class="product-info__divider"></div>
         <p class="product-info__desc">${escapeHtml(p.description || "").replace(/\n/g, "<br>")}</p>

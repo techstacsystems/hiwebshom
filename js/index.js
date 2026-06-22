@@ -100,6 +100,7 @@ function createCard(p) {
   const outOfStock = p.stock <= 0;
   const lowStock = p.stock > 0 && p.stock <= 5;
   const isNew = p.createdAt && (Date.now() - p.createdAt.toMillis() < 7 * 24 * 60 * 60 * 1000);
+  const mlDisplay = p.ml ? `<span style="font-size:0.72rem;color:var(--color-text-light);font-weight:400;margin-left:4px;">(${p.ml} ml)</span>` : "";
 
   const card = document.createElement("div");
   card.className = "product-card";
@@ -110,7 +111,7 @@ function createCard(p) {
         onerror="this.style.display='none';this.parentElement.style.background='var(--color-bg-muted)'" />
     </div>
     <div class="product-card__body">
-      <div class="product-card__name">${escapeHtml(p.name)}</div>
+      <div class="product-card__name">${escapeHtml(p.name)}${mlDisplay}</div>
       <div class="product-card__desc">${escapeHtml(p.description || "")}</div>
       <div class="product-card__footer">
         <span class="product-card__price">${formatPrice(p.price)}</span>
