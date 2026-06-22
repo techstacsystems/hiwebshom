@@ -250,7 +250,7 @@ function renderProductsTable() {
     <tr>
       <td>
         <div class="product-mini">
-          <img class="product-thumb" src="${escapeHtml(p.images?.[0] || "")}" alt=""
+          <img class="product-thumb" src="${escapeHtml((p.images?.[0] || "").replace(/^\/images\//, "./images/") || "")}" alt=""
             onerror="this.style.opacity='0'" />
           <div>
             <div class="product-mini__name">${escapeHtml(p.name)}</div>

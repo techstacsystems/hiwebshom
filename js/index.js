@@ -107,7 +107,7 @@ function createCard(p) {
   card.innerHTML = `
     <div class="product-card__image-wrap">
       ${outOfStock ? '<span class="product-card__badge badge--out">Nema na zalihi</span>' : lowStock ? '<span class="product-card__badge badge--low">Malo na zalihi</span>' : isNew ? '<span class="product-card__badge badge--new">Novo</span>' : ""}
-      <img src="${escapeHtml(p.images?.[0] || "")}" alt="${escapeHtml(p.name)}" loading="lazy"
+      <img src="${escapeHtml((p.images?.[0] || "").replace(/^\/images\//, "./images/"))}" alt="${escapeHtml(p.name)}" loading="lazy"
         onerror="this.style.display='none';this.parentElement.style.background='var(--color-bg-muted)'" />
     </div>
     <div class="product-card__body">

@@ -22,7 +22,7 @@ function render() {
   itemsEl.innerHTML = cart.map(item => `
     <div class="cart-item" data-id="${item.id}">
       <img class="cart-item__image"
-        src="${escapeHtml(item.image || "")}"
+        src="${escapeHtml((item.image || "").replace(/^\/images\//, "./images/"))}"
         alt="${escapeHtml(item.name)}"
         onerror="this.style.background='var(--color-bg-muted)';this.style.objectFit='contain'" />
       <div class="cart-item__info">

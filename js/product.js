@@ -42,10 +42,10 @@ function renderProduct(p) {
 
   const thumbsHtml = images.length > 1 ? images.map((img, i) => `
     <div class="gallery-thumb ${i === 0 ? "active" : ""}" data-idx="${i}">
-      <img src="${escapeHtml(img)}" alt="" loading="lazy" />
+      <img src="${escapeHtml(img.replace(/^\/images\//, "./images/"))}" alt="" loading="lazy" />
     </div>`).join("") : "";
 
-  const mainImgSrc = images[0] || "";
+  const mainImgSrc = (images[0] || "").replace(/^\/images\//, "./images/");
 
   document.getElementById("product-content").innerHTML = `
     <div class="product-layout">
