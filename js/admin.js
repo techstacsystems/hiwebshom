@@ -296,7 +296,7 @@ function buildImagePicker(containerId, selectedList, onUpdate) {
 
   if (!manifestImages.length) {
     container.innerHTML = `<p style="color:var(--color-text-muted);font-size:0.84rem;padding:16px;background:var(--color-bg-soft);border-radius:var(--radius-md);">
-      Nema slika u <code>/images-manifest.json</code>. Dodajte slike u <code>/public/images/</code> i ažurirajte manifest.
+      Nema slika u <code>./images-manifest.json</code>. Dodajte slike u <code>/public/images/</code> i ažurirajte manifest.
     </p>`;
     return;
   }
