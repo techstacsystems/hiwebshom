@@ -87,7 +87,7 @@ async function initDashboard() {
 
 async function loadManifest() {
   try {
-    const res = await fetch("/images-manifest.json");
+    const res = await fetch("./images-manifest.json");
     if (res.ok) manifestImages = await res.json();
   } catch {
     manifestImages = [];
