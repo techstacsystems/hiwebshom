@@ -1,7 +1,10 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
+  base: "/hiwebshom/",
+  publicDir: "public",
   build: {
+    assetsDir: "assets",
     rollupOptions: {
       input: {
         main: "index.html",
