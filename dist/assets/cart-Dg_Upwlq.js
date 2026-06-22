@@ -5,7 +5,7 @@ import{i as p,u as v,g,e as r,f as i,a as h,b as o,r as b}from"./utils-Dixr07uC.
         alt="${r(t.name)}"
         onerror="this.style.background='var(--color-bg-muted)';this.style.objectFit='contain'" />
       <div class="cart-item__info">
-        <a href="../product.html?id=${t.id}" class="cart-item__name">${r(t.name)}</a>
+        <a href="..//hiwebshom/product.html?id=${t.id}" class="cart-item__name">${r(t.name)}</a>
         <div class="cart-item__price">${i(t.price)} / kom.</div>
         <div class="quantity-control" style="margin-top:8px;width:fit-content;">
           <button class="qty-btn qty-minus" style="width:32px;height:34px;">−</button>
