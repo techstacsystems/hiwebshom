@@ -35,7 +35,7 @@ npm run build
 | URL | Opis |
 |-----|------|
 | `/` | Početna – svi proizvodi |
-| `/product.html?id=...` | Detalji proizvoda |
+| `/${import.meta.env.BASE_URL}${import.meta.env.BASE_URL}product.html?id=...` | Detalji proizvoda |
 | `/cart.html` | Korpa |
 | `/checkout.html` | Narudžba |
 | `/admin.html` | Admin panel (zahtijeva login) |
