@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – Hareem Istanbul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body class="admin-body">
+
+<!-- ===== LOGIN ===== -->
+<div id="login-screen" class="admin-login">
+  <div class="login-card">
+    <img src="/hiscc.jpg" alt="Hareem Istanbul" class="login-logo-img" />
+    <div class="login-logo-name">Hareem Istanbul</div>
+    <div class="login-logo-sub">Admin Panel</div>
+    <h2>Prijava</h2>
+    <p>Unesite vaše administratorske podatke</p>
+    <div class="login-error" id="login-error"></div>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" class="form-control" placeholder="admin@hareemistanbul.ba" required />
+      </div>
+      <div class="form-group">
+        <label for="login-password">Lozinka</label>
+        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn btn-primary btn--full" id="login-btn" style="margin-top:8px;">Prijavi se</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="admin-screen" style="display:none;">
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <img src="/hiscc.jpg" alt="" class="sidebar-brand-img" />
+        <div class="sidebar-brand-text">
+          <div class="sidebar-brand__name">Hareem Istanbul</div>
+          <div class="sidebar-brand__sub">Admin Panel</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-nav-item active" data-tab="dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
+          Dashboard
+        </div>
+        <div class="sidebar-nav-item" data-tab="orders">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+          Narudžbe
+        </div>
+        <div class="sidebar-nav-item" data-tab="products">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+          Proizvodi
+        </div>
+        <div class="sidebar-nav-item" data-tab="add-product">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+          Dodaj proizvod
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user" id="sidebar-user-email"></div>
+        <button class="btn-logout" id="logout-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
+          Odjavi se
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1 id="topbar-title">Dashboard</h1>
+        <a href="/" target="_blank" style="font-size:0.8rem;color:var(--color-text-muted);display:flex;align-items:center;gap:5px;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
+          Pogledaj shop
+        </a>
+      </div>
+
+      <div class="admin-content">
+
+        <!-- DASHBOARD TAB -->
+        <div class="admin-tab active" id="tab-dashboard">
+          <div class="ds-stats">
+            <div class="stat-card">
+              <div class="stat-card__label">Ukupno proizvoda</div>
+              <div class="stat-card__value" id="ds-total-products">–</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Ukupno narudžbi</div>
+              <div class="stat-card__value" id="ds-total-orders">–</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Ukupni prihod</div>
+              <div class="stat-card__value" id="ds-revenue">–</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Narudžbe danas</div>
+              <div class="stat-card__value" id="ds-today">–</div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap;">
+            <div class="ds-recent" style="grid-column:1/-1;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+                <h3>Posljednje narudžbe</h3>
+                <button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem;" onclick="document.querySelector('[data-tab=orders]').click()">Sve narudžbe</button>
+              </div>
+              <div id="ds-recent-orders"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDERS TAB -->
+        <div class="admin-tab" id="tab-orders">
+          <div class="stats-grid" style="margin-bottom:24px;">
+            <div class="stat-card">
+              <div class="stat-card__label">Ukupno narudžbi</div>
+              <div class="stat-card__value" id="stat-total-orders">–</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Ukupni prihod</div>
+              <div class="stat-card__value" id="stat-revenue">–</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__label">Narudžbe danas</div>
+              <div class="stat-card__value" id="stat-today">–</div>
+            </div>
+          </div>
+          <div id="orders-list"></div>
+        </div>
+
+        <!-- PRODUCTS TAB -->
+        <div class="admin-tab" id="tab-products">
+          <div class="table-wrap">
+            <div class="table-header">
+              <h3>Svi proizvodi</h3>
+              <button class="btn btn-primary" style="padding:8px 16px;font-size:0.82rem;" onclick="document.querySelector('[data-tab=add-product]').click()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
+                Dodaj proizvod
+              </button>
+            </div>
+            <div style="overflow-x:auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Proizvod</th>
+                    <th>Cijena</th>
+                    <th>Zaliha</th>
+                    <th>Slike</th>
+                    <th>Akcije</th>
+                  </tr>
+                </thead>
+                <tbody id="products-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ADD PRODUCT TAB -->
+        <div class="admin-tab" id="tab-add-product">
+          <div class="admin-form-card">
+            <h3>Dodaj novi proizvod</h3>
+            <div class="admin-form-grid">
+              <div class="form-group">
+                <label for="p-name">Naziv *</label>
+                <input type="text" id="p-name" class="form-control" placeholder="Naziv proizvoda" />
+              </div>
+              <div class="form-group">
+                <label for="p-price">Cijena (KM) *</label>
+                <input type="number" id="p-price" class="form-control" placeholder="0.00" step="0.01" min="0" />
+              </div>
+              <div class="form-group" style="grid-column:1/-1;">
+                <label for="p-desc">Opis *</label>
+                <textarea id="p-desc" class="form-control" rows="4" placeholder="Opis proizvoda..."></textarea>
+              </div>
+              <div class="form-group">
+                <label for="p-stock">Zaliha *</label>
+                <input type="number" id="p-stock" class="form-control" placeholder="0" min="0" />
+              </div>
+              <div class="form-group">
+                <label for="p-category">Kategorija</label>
+                <input type="text" id="p-category" class="form-control" placeholder="npr. Parfemi, Home Scents..." />
+              </div>
+            </div>
+
+            <!-- IMAGE PICKER -->
+            <div class="form-group" style="margin-top:12px;grid-column:1/-1;">
+              <label style="display:block;margin-bottom:6px;">Odaberite slike</label>
+              <div class="img-picker-hint">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
+                Kliknite na sliku za odabir. Slike se nalaze u <code>/public/images/</code> folderu.
+              </div>
+              <div class="img-picker-grid" id="add-img-picker"></div>
+              <div style="margin-top:10px;">
+                <label style="font-size:0.78rem;color:var(--color-text-muted);display:block;margin-bottom:6px;">Odabrane slike (kliknite × za uklanjanje):</label>
+                <div class="selected-preview-row image-preview-grid" id="add-img-preview">
+                  <p style="font-size:0.8rem;color:var(--color-text-light);">Nema odabranih slika</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:11px;margin-top:16px;">
+              <button class="btn btn-primary" id="save-product-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                Dodaj proizvod
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal" style="max-width:620px;">
+    <div class="modal-header">
+      <h3>Uredi proizvod</h3>
+      <button class="modal-close" id="close-edit-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <input type="hidden" id="modal-product-id" />
+    <div class="admin-form-grid">
+      <div class="form-group">
+        <label>Naziv *</label>
+        <input type="text" id="modal-name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Cijena (KM) *</label>
+        <input type="number" id="modal-price" class="form-control" step="0.01" min="0" />
+      </div>
+      <div class="form-group" style="grid-column:1/-1;">
+        <label>Opis</label>
+        <textarea id="modal-desc" class="form-control" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Zaliha</label>
+        <input type="number" id="modal-stock" class="form-control" min="0" />
+      </div>
+      <div class="form-group">
+        <label>Kategorija</label>
+        <input type="text" id="modal-category" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:10px;">
+      <label style="display:block;margin-bottom:6px;">Slike (kliknite za odabir / deodabir)</label>
+      <div class="img-picker-grid" id="edit-img-picker"></div>
+      <div style="margin-top:10px;">
+        <label style="font-size:0.78rem;color:var(--color-text-muted);display:block;margin-bottom:6px;">Odabrane slike:</label>
+        <div class="selected-preview-row image-preview-grid" id="edit-img-preview"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="close-edit-modal-2">Otkaži</button>
+      <button class="btn btn-primary" id="save-edit-btn">Spremi promjene</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <h3>Obriši proizvod</h3>
+      <button class="modal-close" id="close-delete-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <p style="color:var(--color-text-muted);font-size:0.88rem;line-height:1.65;">
+      Jeste li sigurni da želite obrisati ovaj proizvod? Ova akcija je nepovratna.
+    </p>
+    <input type="hidden" id="delete-product-id" />
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="cancel-delete-btn">Otkaži</button>
+      <button class="btn btn-danger" id="confirm-delete-btn">Obriši</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/js/admin.js"></script>
+</body>
+</html>
