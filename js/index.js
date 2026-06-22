@@ -131,7 +131,7 @@ function createCard(p) {
       }
       return;
     }
-    window.location.href = `.//hiwebshom/${import.meta.env.BASE_URL}product.html?id=${p.id}`;
+    window.location.href = `${import.meta.env.BASE_URL}product.html?id=${p.id}`;
   });
 
   return card;
