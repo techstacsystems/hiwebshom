@@ -7,7 +7,7 @@ initScrollHeader();
 updateCartBadge();
 
 const cart = getCart();
-if (!cart.length) { window.location.href = "../cart.html"; }
+if (!cart.length) { window.location.href = `${import.meta.env.BASE_URL}cart.html`; }
 
 // Render order summary
 document.getElementById("order-items").innerHTML = cart.map(item => `
