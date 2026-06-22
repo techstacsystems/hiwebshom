@@ -8,13 +8,13 @@ updateCartBadge();
 
 const params = new URLSearchParams(window.location.search);
 const productId = params.get("id");
-if (!productId) { window.location.href = "./index.html"; }
+if (!productId) { window.location.href = `${import.meta.env.BASE_URL}index.html`; }
 
 async function loadProduct() {
   const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 8000));
   try {
     const snap = await Promise.race([getDoc(doc(db, "products", productId)), timeout]);
-    if (!snap.exists()) { window.location.href = "./index.html"; return; }
+    if (!snap.exists()) { window.location.href = `${import.meta.env.BASE_URL}index.html`; return; }
     renderProduct({ id: snap.id, ...snap.data() });
   } catch (err) {
     console.error(err);
