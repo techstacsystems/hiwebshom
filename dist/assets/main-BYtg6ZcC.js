@@ -28,4 +28,4 @@ import{i as v,u as y,e as d,f as h,h as _,s as k}from"./utils-Dixr07uC.js";impor
         </button>
       </div>
     </div>
-  `,s.addEventListener("click",u=>{if(u.target.closest(".product-card__add")){u.stopPropagation(),t||(_(e,1),k(`${e.name} dodano u korpu`));return}window.location.href=`/product.html?id=${e.id}`}),s}$();
+  `,s.addEventListener("click",u=>{if(u.target.closest(".product-card__add")){u.stopPropagation(),t||(_(e,1),k(`${e.name} dodano u korpu`));return}window.location.href=`./product.html?id=${e.id}`}),s}$();

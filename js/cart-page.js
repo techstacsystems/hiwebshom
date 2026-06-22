@@ -26,7 +26,7 @@ function render() {
         alt="${escapeHtml(item.name)}"
         onerror="this.style.background='var(--color-bg-muted)';this.style.objectFit='contain'" />
       <div class="cart-item__info">
-        <a href="./product.html?id=${item.id}" class="cart-item__name">${escapeHtml(item.name)}</a>
+        <a href="../product.html?id=${item.id}" class="cart-item__name">${escapeHtml(item.name)}</a>
         <div class="cart-item__price">${formatPrice(item.price)} / kom.</div>
         <div class="quantity-control" style="margin-top:8px;width:fit-content;">
           <button class="qty-btn qty-minus" style="width:32px;height:34px;">−</button>

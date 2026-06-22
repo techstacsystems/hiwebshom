@@ -131,7 +131,7 @@ function createCard(p) {
       }
       return;
     }
-    window.location.href = `/product.html?id=${p.id}`;
+    window.location.href = `./product.html?id=${p.id}`;
   });
 
   return card;
