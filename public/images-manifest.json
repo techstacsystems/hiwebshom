@@ -1,8 +1,8 @@
 [
-  "/images/parfem1.jpg",
-  "/images/parfem2.jpg",
-  "/images/parfem3.jpg",
-  "/images/parfem4.jpg",
-  "/images/parfem5.jpg",
-  "/images/parfem6.jpg"
+  "./images/parfem1.jpg",
+  "./images/parfem2.jpg",
+  "./images/parfem3.jpg",
+  "./images/parfem4.jpg",
+  "./images/parfem5.jpg",
+  "./images/parfem6.jpg"
 ]
