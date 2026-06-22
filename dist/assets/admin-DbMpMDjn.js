@@ -36,7 +36,7 @@ import{f,e as r,s as u}from"./utils-Dixr07uC.js";import{a as k,d as I}from"./fir
     <tr>
       <td>
         <div class="product-mini">
-          <img class="product-thumb" src="${r(((o=e.images)==null?void 0:o[0])||"")}" alt=""
+          <img class="product-thumb" src="${r((((o=e.images)==null?void 0:o[0])||"").replace(/^\/images\//,"./images/")||"")}" alt=""
             onerror="this.style.opacity='0'" />
           <div>
             <div class="product-mini__name">${r(e.name)}</div>

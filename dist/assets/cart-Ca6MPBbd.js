@@ -1,11 +1,11 @@
 import{i as p,u as v,g,e as r,f as i,a as h,b as o,r as b}from"./utils-Dixr07uC.js";p();v();function n(){const c=g(),l=document.getElementById("cart-content"),d=document.getElementById("cart-empty"),m=document.getElementById("cart-items");if(!c.length){l.style.display="none",d.style.display="block";return}l.style.display="grid",d.style.display="none",m.innerHTML=c.map(t=>`
     <div class="cart-item" data-id="${t.id}">
       <img class="cart-item__image"
-        src="${r(t.image||"")}"
+        src="${r((t.image||"").replace(/^\/images\//,"./images/"))}"
         alt="${r(t.name)}"
         onerror="this.style.background='var(--color-bg-muted)';this.style.objectFit='contain'" />
       <div class="cart-item__info">
-        <a href="/product.html?id=${t.id}" class="cart-item__name">${r(t.name)}</a>
+        <a href="./product.html?id=${t.id}" class="cart-item__name">${r(t.name)}</a>
         <div class="cart-item__price">${i(t.price)} / kom.</div>
         <div class="quantity-control" style="margin-top:8px;width:fit-content;">
           <button class="qty-btn qty-minus" style="width:32px;height:34px;">−</button>

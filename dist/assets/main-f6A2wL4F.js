@@ -15,7 +15,7 @@ import{i as v,u as y,e as d,f as h,h as _,s as k}from"./utils-Dixr07uC.js";impor
   `}function z(){[...new Set(i.map(t=>t.category).filter(Boolean))].forEach(t=>{const o=document.createElement("button");o.className="filter-btn",o.dataset.filter=t,o.textContent=t,c.appendChild(o)}),c.addEventListener("click",t=>{const o=t.target.closest(".filter-btn");if(!o)return;c.querySelectorAll(".filter-btn").forEach(a=>a.classList.remove("active")),o.classList.add("active"),l=o.dataset.filter;const r=l==="all"?i:i.filter(a=>a.category===l);b(r)})}function b(e){if(n.innerHTML="",!e.length){p.style.display="block";return}p.style.display="none",e.forEach(t=>n.appendChild(C(t)))}function C(e){var m;const t=e.stock<=0,o=e.stock>0&&e.stock<=5,r=e.createdAt&&Date.now()-e.createdAt.toMillis()<7*24*60*60*1e3,a=e.ml?`<span style="font-size:0.72rem;color:var(--color-text-light);font-weight:400;margin-left:4px;">(${e.ml} ml)</span>`:"",s=document.createElement("div");return s.className="product-card",s.innerHTML=`
     <div class="product-card__image-wrap">
       ${t?'<span class="product-card__badge badge--out">Nema na zalihi</span>':o?'<span class="product-card__badge badge--low">Malo na zalihi</span>':r?'<span class="product-card__badge badge--new">Novo</span>':""}
-      <img src="${d(((m=e.images)==null?void 0:m[0])||"")}" alt="${d(e.name)}" loading="lazy"
+      <img src="${d((((m=e.images)==null?void 0:m[0])||"").replace(/^\/images\//,"./images/"))}" alt="${d(e.name)}" loading="lazy"
         onerror="this.style.display='none';this.parentElement.style.background='var(--color-bg-muted)'" />
     </div>
     <div class="product-card__body">
