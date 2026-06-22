@@ -1,5 +1,5 @@
 import { db } from "./firebase-config.js";
-import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { collection, addDoc, doc, getDoc, updateDoc, serverTimestamp, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getCart, clearCart, getCartTotal, updateCartBadge } from "./cart.js";
 import { formatPrice, generateOrderNumber, escapeHtml, initScrollHeader } from "./utils.js";
 
@@ -51,13 +51,39 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
 
   try {
     const orderNum = generateOrderNumber();
-    await addDoc(collection(db, "orders"), {
-      orderNumber: orderNum,
-      customer: { firstName, lastName, fullName: `${firstName} ${lastName}`, phone, address, city, note },
-      items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, subtotal: i.price * i.quantity })),
-      total: getCartTotal(),
-      status: "new",
-      createdAt: serverTimestamp()
+
+    // Use transaction to ensure stock is updated atomically
+    await runTransaction(db, async (transaction) => {
+      // First verify and update stock for all products
+      for (const item of cart) {
+        const productRef = doc(db, "products", item.id);
+        const productDoc = await transaction.get(productRef);
+
+        if (!productDoc.exists()) {
+          throw new Error(`Proizvod ${item.name} više ne postoji.`);
+        }
+
+        const currentStock = productDoc.data().stock || 0;
+        if (currentStock < item.quantity) {
+          throw new Error(`Nema dovoljno na zalihi za ${item.name}. Dostupno: ${currentStock}`);
+        }
+
+        // Update stock
+        transaction.update(productRef, {
+          stock: currentStock - item.quantity
+        });
+      }
+
+      // Create the order after stock validation
+      const orderRef = doc(collection(db, "orders"));
+      transaction.set(orderRef, {
+        orderNumber: orderNum,
+        customer: { firstName, lastName, fullName: `${firstName} ${lastName}`, phone, address, city, note },
+        items: cart.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity, subtotal: i.price * i.quantity })),
+        total: getCartTotal(),
+        status: "new",
+        createdAt: serverTimestamp()
+      });
     });
 
     clearCart();
@@ -71,6 +97,8 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
     console.error(err);
     btn.disabled = false;
     btn.innerHTML = `Potvrdi narudžbu`;
-    alert("Greška pri slanju narudžbe. Pokušajte ponovo.");
+    // Show specific error message for stock issues
+    const errorMsg = err.message || "Greška pri slanju narudžbe. Pokušajte ponovo.";
+    alert(errorMsg);
   }
 });
