@@ -3,346 +3,185 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel – Hareem Istanbul</title>
+  <title>O nama – Hareem Istanbul</title>
+  <meta name="description" content="Upoznajte Hareem Istanbul – luksuzni parfemi i mirisni doživljaji. SCC Sarajevo, II sprat." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./css/main.css" />
-  <link rel="stylesheet" href="./css/admin.css" />
 </head>
-<body class="admin-body">
+<body>
 
-<!-- ===== LOGIN ===== -->
-<div id="login-screen" class="admin-login">
-  <div class="login-card">
-    <img src="./hiscc.jpg" alt="Hareem Istanbul" class="login-logo-img" />
-    <div class="login-logo-name">Hareem Istanbul</div>
-    <div class="login-logo-sub">Admin Panel</div>
-    <h2>Prijava</h2>
-    <p>Unesite vaše administratorske podatke</p>
-    <div class="login-error" id="login-error"></div>
-    <form id="login-form">
-      <div class="form-group">
-        <label for="login-email">Email</label>
-        <input type="email" id="login-email" class="form-control" placeholder="admin@hareemistanbul.ba" required />
-      </div>
-      <div class="form-group">
-        <label for="login-password">Lozinka</label>
-        <input type="password" id="login-password" class="form-control" placeholder="••••••••" required />
-      </div>
-      <button type="submit" class="btn btn-primary btn--full" id="login-btn" style="margin-top:8px;">Prijavi se</button>
-    </form>
-  </div>
-</div>
-
-<!-- ===== DASHBOARD ===== -->
-<div id="admin-screen" style="display:none;">
-  <!-- MOBILE TOP BAR -->
-  <div class="admin-mobile-topbar">
-    <button class="mobile-menu-toggle" id="mobile-sidebar-toggle">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
-    </button>
-    <div class="mobile-brand">
-      <img src="./hiscc.jpg" alt="" />
-      <span>Admin Panel</span>
-    </div>
-    <button class="mobile-logout" id="mobile-logout-btn" title="Odjavi se">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
-    </button>
-  </div>
-
-  <!-- MOBILE SIDEBAR OVERLAY -->
-  <div class="mobile-sidebar-overlay" id="mobile-sidebar-overlay"></div>
-
-  <div class="admin-layout">
-
-    <!-- SIDEBAR -->
-    <aside class="admin-sidebar" id="admin-sidebar">
-      <div class="sidebar-brand">
-        <img src="./hiscc.jpg" alt="" class="sidebar-brand-img" />
-        <div class="sidebar-brand-text">
-          <div class="sidebar-brand__name">Hareem Istanbul</div>
-          <div class="sidebar-brand__sub">Admin Panel</div>
+<header class="site-header" id="site-header">
+  <div class="container">
+    <nav class="nav">
+      <a href="./" class="nav__logo">
+        <img src="./hiscc.jpg" alt="Hareem Istanbul" class="nav__logo-img" />
+        <div class="nav__logo-text">
+          <span class="nav__logo-main">Hareem Istanbul</span>
+          <span class="nav__logo-sub">Luxury Fragrances</span>
         </div>
-      </div>
-      <nav class="sidebar-nav">
-        <div class="sidebar-nav-item active" data-tab="dashboard">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /></svg>
-          Dashboard
-        </div>
-        <div class="sidebar-nav-item" data-tab="orders">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-          Narudžbe
-        </div>
-        <div class="sidebar-nav-item" data-tab="products">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
-          Proizvodi
-        </div>
-        <div class="sidebar-nav-item" data-tab="add-product">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-          Dodaj proizvod
-        </div>
-      </nav>
-      <div class="sidebar-footer">
-        <div class="sidebar-user" id="sidebar-user-email"></div>
-        <button class="btn-logout" id="logout-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
-          Odjavi se
+      </a>
+      <ul class="nav__links">
+        <li><a href="./">Proizvodi</a></li>
+        <li><a href="./about.html">O nama</a></li>
+        <li><a href="./contact.html">Kontakt</a></li>
+      </ul>
+      <div class="nav__actions">
+        <a href="./cart.html" class="nav__cart-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.863-7.158a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
+          <span>Korpa</span>
+          <span id="cart-badge">0</span>
+        </a>
+        <button class="nav__burger" id="nav-burger" aria-label="Meni">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
         </button>
       </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="admin-main">
-      <div class="admin-topbar">
-        <h1 id="topbar-title">Dashboard</h1>
-        <a href="./" target="_blank" style="font-size:0.8rem;color:var(--color-text-muted);display:flex;align-items:center;gap:5px;">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" /></svg>
-          Pogledaj shop
-        </a>
-      </div>
-
-      <div class="admin-content">
-
-        <!-- DASHBOARD TAB -->
-        <div class="admin-tab active" id="tab-dashboard">
-          <div class="ds-stats">
-            <div class="stat-card">
-              <div class="stat-card__label">Ukupno proizvoda</div>
-              <div class="stat-card__value" id="ds-total-products">–</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-card__label">Ukupno narudžbi</div>
-              <div class="stat-card__value" id="ds-total-orders">–</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-card__label">Ukupni prihod</div>
-              <div class="stat-card__value" id="ds-revenue">–</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-card__label">Narudžbe danas</div>
-              <div class="stat-card__value" id="ds-today">–</div>
-            </div>
-          </div>
-
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex-wrap:wrap;">
-            <div class="ds-recent" style="grid-column:1/-1;">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-                <h3>Posljednje narudžbe</h3>
-                <button class="btn btn-outline" style="padding:6px 14px;font-size:0.78rem;" id="btn-view-all-orders">Sve narudžbe</button>
-              </div>
-              <div id="ds-recent-orders"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ORDERS TAB -->
-        <div class="admin-tab" id="tab-orders">
-          <div class="stats-grid" style="margin-bottom:24px;">
-            <div class="stat-card">
-              <div class="stat-card__label">Ukupno narudžbi</div>
-              <div class="stat-card__value" id="stat-total-orders">–</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-card__label">Ukupni prihod</div>
-              <div class="stat-card__value" id="stat-revenue">–</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-card__label">Narudžbe danas</div>
-              <div class="stat-card__value" id="stat-today">–</div>
-            </div>
-          </div>
-          <div id="orders-list"></div>
-        </div>
-
-        <!-- PRODUCTS TAB -->
-        <div class="admin-tab" id="tab-products">
-          <div class="table-wrap">
-            <div class="table-header">
-              <h3>Svi proizvodi</h3>
-              <button class="btn btn-primary" style="padding:8px 16px;font-size:0.82rem;" id="btn-add-product">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" style="width:14px;height:14px;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
-                Dodaj proizvod
-              </button>
-            </div>
-            <div style="overflow-x:auto;">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Proizvod</th>
-                    <th>Cijena</th>
-                    <th>Ml</th>
-                    <th>Zaliha</th>
-                    <th>Slike</th>
-                    <th>Akcije</th>
-                  </tr>
-                </thead>
-                <tbody id="products-tbody"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- ADD PRODUCT TAB -->
-        <div class="admin-tab" id="tab-add-product">
-          <div class="admin-form-card">
-            <h3>Dodaj novi proizvod</h3>
-            <div class="admin-form-grid">
-              <div class="form-group">
-                <label for="p-name">Naziv *</label>
-                <input type="text" id="p-name" class="form-control" placeholder="Naziv proizvoda" />
-              </div>
-              <div class="form-group">
-                <label for="p-price">Cijena (KM) *</label>
-                <input type="number" id="p-price" class="form-control" placeholder="0.00" step="0.01" min="0" />
-              </div>
-              <div class="form-group" style="grid-column:1/-1;">
-                <label for="p-desc">Opis *</label>
-                <textarea id="p-desc" class="form-control" rows="4" placeholder="Opis proizvoda..."></textarea>
-              </div>
-              <div class="form-group">
-                <label for="p-ml">Militari (ml)</label>
-                <input type="number" id="p-ml" class="form-control" placeholder="npr. 50, 100" min="0" />
-              </div>
-              <div class="form-group">
-                <label for="p-stock">Zaliha *</label>
-                <input type="number" id="p-stock" class="form-control" placeholder="0" min="0" />
-              </div>
-              <div class="form-group">
-                <label for="p-category">Kategorija</label>
-                <input type="text" id="p-category" class="form-control" placeholder="npr. Parfemi, Home Scents..." />
-              </div>
-              <div class="form-group">
-                <label for="p-discount">Sniženje (%)</label>
-                <input type="number" id="p-discount" class="form-control" placeholder="0" min="0" max="90" step="1" />
-              </div>
-            </div>
-
-            <!-- IMAGE PICKER -->
-            <div class="form-group" style="margin-top:12px;grid-column:1/-1;">
-              <label style="display:block;margin-bottom:6px;">Odaberite slike</label>
-              <div class="img-picker-hint">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /></svg>
-                Kliknite na sliku za odabir. Slike se nalaze u <code>/public/images/</code> folderu.
-              </div>
-              <div class="img-picker-grid" id="add-img-picker"></div>
-              <div style="margin-top:10px;">
-                <label style="font-size:0.78rem;color:var(--color-text-muted);display:block;margin-bottom:6px;">Odabrane slike (kliknite × za uklanjanje):</label>
-                <div class="selected-preview-row image-preview-grid" id="add-img-preview">
-                  <p style="font-size:0.8rem;color:var(--color-text-light);">Nema odabranih slika</p>
-                </div>
-              </div>
-            </div>
-
-            <div style="display:flex;gap:11px;margin-top:16px;">
-              <button class="btn btn-primary" id="save-product-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                Dodaj proizvod
-              </button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </main>
+    </nav>
   </div>
-</div>
+</header>
 
-<!-- EDIT MODAL -->
-<div class="modal-overlay" id="edit-modal">
-  <div class="modal" style="max-width:620px;">
-    <div class="modal-header">
-      <h3>Uredi proizvod</h3>
-      <button class="modal-close" id="close-edit-modal">
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-menu__panel">
+    <div class="mobile-menu__head">
+      <div class="mobile-menu__brand">
+        <img src="./hiscc.jpg" alt="Hareem Istanbul" />
+        <span class="mobile-menu__brand-name">Hareem Istanbul</span>
+      </div>
+      <button class="mobile-menu__close" id="mobile-close">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
       </button>
     </div>
-    <input type="hidden" id="modal-product-id" />
-    <div class="admin-form-grid">
-      <div class="form-group">
-        <label>Naziv *</label>
-        <input type="text" id="modal-name" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label>Cijena (KM) *</label>
-        <input type="number" id="modal-price" class="form-control" step="0.01" min="0" />
-      </div>
-      <div class="form-group" style="grid-column:1/-1;">
-        <label>Opis</label>
-        <textarea id="modal-desc" class="form-control" rows="3"></textarea>
-      </div>
-      <div class="form-group">
-        <label>Militari (ml)</label>
-        <input type="number" id="modal-ml" class="form-control" min="0" />
-      </div>
-      <div class="form-group">
-        <label>Zaliha</label>
-        <input type="number" id="modal-stock" class="form-control" min="0" />
-      </div>
-      <div class="form-group">
-        <label>Kategorija</label>
-        <input type="text" id="modal-category" class="form-control" />
-      </div>
-      <div class="form-group">
-        <label>Sniženje (%)</label>
-        <input type="number" id="modal-discount" class="form-control" min="0" max="90" step="1" placeholder="0" />
-      </div>
-    </div>
-    <div class="form-group" style="margin-top:10px;">
-      <label style="display:block;margin-bottom:6px;">Slike (kliknite za odabir / deodabir)</label>
-      <div class="img-picker-grid" id="edit-img-picker"></div>
-      <div style="margin-top:10px;">
-        <label style="font-size:0.78rem;color:var(--color-text-muted);display:block;margin-bottom:6px;">Odabrane slike:</label>
-        <div class="selected-preview-row image-preview-grid" id="edit-img-preview"></div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" id="close-edit-modal-2">Otkaži</button>
-      <button class="btn btn-primary" id="save-edit-btn">Spremi promjene</button>
-    </div>
+    <nav class="mobile-menu__nav">
+      <a href="./"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>Proizvodi</a>
+      <a href="./about.html" class="active"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3" /></svg>O nama</a>
+      <a href="./contact.html"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Kontakt</a>
+      <div class="mobile-menu__divider"></div>
+      <a href="./cart.html"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.863-7.158a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>Korpa</a>
+    </nav>
+    <div class="mobile-menu__footer">📍 SCC Sarajevo, II sprat &nbsp;|&nbsp; 71000 BiH</div>
   </div>
 </div>
 
-<!-- DELETE MODAL -->
-<div class="modal-overlay" id="delete-modal">
-  <div class="modal" style="max-width:380px;">
-    <div class="modal-header">
-      <h3>Obriši proizvod</h3>
-      <button class="modal-close" id="close-delete-modal">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
-    </div>
-    <p style="color:var(--color-text-muted);font-size:0.88rem;line-height:1.65;">
-      Jeste li sigurni da želite obrisati ovaj proizvod? Ova akcija je nepovratna.
-    </p>
-    <input type="hidden" id="delete-product-id" />
-    <div class="modal-footer">
-      <button class="btn btn-outline" id="cancel-delete-btn">Otkaži</button>
-      <button class="btn btn-danger" id="confirm-delete-btn">Obriši</button>
-    </div>
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="container" style="position:relative;z-index:1;">
+    <span class="page-hero__eyebrow">Naša priča</span>
+    <h1 class="page-hero__title heading-serif">O nama</h1>
+    <p class="page-hero__sub">Luksuz koji možete osjetiti, pamtiti i ponijeti sa sobom.</p>
   </div>
 </div>
 
-<!-- DELETE ORDER MODAL -->
-<div class="modal-overlay" id="delete-order-modal">
-  <div class="modal" style="max-width:380px;">
-    <div class="modal-header">
-      <h3>Obriši narudžbu</h3>
-      <button class="modal-close" id="close-delete-order-modal">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-      </button>
+<!-- ABOUT CONTENT -->
+<main class="about-page">
+  <div class="container">
+
+    <!-- Story section -->
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.pexels.com/photos/3059609/pexels-photo-3059609.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Hareem Istanbul prodavnica" loading="lazy" />
+      </div>
+      <div class="about-text">
+        <div class="about-text__eyebrow">Ko smo mi</div>
+        <h2 class="heading-serif">Hareem Istanbul –<br>Ab Imo Pectore</h2>
+        <p>Hareem Istanbul je brand luksuznih parfema i mirisnih doživljaja, posvećen onima koji cijene eleganciju i autentičnost. Naše ime je inspirisano bogatom osmanskom tradicijom i misterijom orijentalnih mirisa.</p>
+        <p>Svaki naš parfem je pažljivo odabrana priča — od prve note do dubokog traga koji ostaje na koži. Vjerujemo da miris nije samo detalj, već nevidljivi dio vašeg identiteta.</p>
+        <a href="./" class="btn btn-primary" style="margin-top:8px;display:inline-flex;">Istražite kolekciju</a>
+      </div>
     </div>
-    <p style="color:var(--color-text-muted);font-size:0.88rem;line-height:1.65;">
-      Jeste li sigurni da želite obrisati ovu narudžbu? Ova akcija je nepovratna.
-    </p>
-    <input type="hidden" id="delete-order-id" />
-    <div class="modal-footer">
-      <button class="btn btn-outline" id="cancel-delete-order-btn">Otkaži</button>
-      <button class="btn btn-danger" id="confirm-delete-order-btn">Obriši</button>
+
+    <!-- Mission section -->
+    <div class="about-grid reverse">
+      <div class="about-img-wrap">
+        <img src="https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Luksuzni parfemi" loading="lazy" />
+      </div>
+      <div class="about-text">
+        <div class="about-text__eyebrow">Naša misija</div>
+        <h2 class="heading-serif">Miris koji privlači<br>pažnju bez ijedne<br>izgovorene riječi</h2>
+        <p>Biramo samo parfeme koji prolaze kroz naš strogi test kvaliteta — mirisi koji traju, koji ostavljaju utisak i koji pričaju priču o onome ko ih nosi.</p>
+        <p>Naša misija je učiniti luksuz dostupnim svima koji ga cijene, uz personalizovanu preporuku i uslugu koja se pamti.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VALUES -->
+  <div class="values-section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:40px;">
+        <span style="font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-dark);font-weight:600;">Što nas čini posebnim</span>
+        <h2 class="heading-serif" style="font-size:1.7rem;margin-top:8px;">Naše vrijednosti</h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z" /></svg>
+          </div>
+          <h3>Premium kvalitet</h3>
+          <p>Svaki parfem je pažljivo odabran i provjeren. Samo ono što mi sami nosimo nudimo vama.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
+          </div>
+          <h3>Strast prema mirisima</h3>
+          <p>Parfemi nisu samo posao — to je naša strast i ljubav prema ljepoti i sofisticiranosti.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-card__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+          </div>
+          <h3>Personalizovana usluga</h3>
+          <p>Svaki kupac je poseban. Savjetujemo vas u odabiru mirisa koji odgovaraju vašem karakteru.</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-<script type="module" src="./js/admin.js"></script>
+  <!-- CTA -->
+  <div class="container" style="padding-top:64px;padding-bottom:16px;text-align:center;">
+    <span style="font-size:0.67rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--color-accent-dark);font-weight:600;">Posjetite nas</span>
+    <h2 class="heading-serif" style="font-size:1.7rem;margin:10px 0 12px;">Pronađite nas u SCC Sarajevo</h2>
+    <p style="color:var(--color-text-muted);font-size:0.92rem;margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto;">Dođite na II sprat i pronađite miris koji govori za vas — naš tim je tu da pomogne.</p>
+    <!-- <div class="map-container" style="max-width:720px;margin:0 auto 28px;text-align:left;"> 
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2876.9!2d18.4053!3d43.8554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4758c8df25ac110b%3A0xb1cd13f8b38c755a!2sSCC%20-%20Sarajevo%20City%20Center!5e0!3m2!1sbs!2sba!4v1710000000000!5m2!1sbs!2sba"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Hareem Istanbul – SCC Sarajevo"
+        allowfullscreen>
+      </iframe>
+    </div>-->
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="./contact.html" class="btn btn-primary">Kontaktirajte nas</a>
+      <a href="./" class="btn btn-outline">Istražite online shop</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <img src="./hiscc.jpg" alt="" class="footer-logo-img" />
+    <div class="footer-logo-name">Hareem Istanbul</div>
+    <div class="footer-sub">Luxury Fragrances & Home Scents</div>
+    <div class="footer-tagline">Ab Imo Pectore</div>
+    <div class="footer-location">📍 SCC Sarajevo, II sprat &nbsp;|&nbsp; Bosna i Hercegovina 71000</div>
+    <ul class="footer-links">
+      <li><a href="./">Proizvodi</a></li>
+      <li><a href="./about.html">O nama</a></li>
+      <li><a href="./contact.html">Kontakt</a></li>
+      <li><a href="./cart.html">Korpa</a></li>
+    </ul>
+    <p class="footer-copy">&copy; 2026 Techstac. Sva prava zadržana.</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { initScrollHeader } from './js/utils.js';
+  import { updateCartBadge } from './js/cart.js';
+  initScrollHeader();
+  updateCartBadge();
+</script>
 </body>
 </html>
