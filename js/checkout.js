@@ -12,7 +12,7 @@ if (!cart.length) { window.location.href = `${import.meta.env.BASE_URL}cart.html
 // Render order summary
 document.getElementById("order-items").innerHTML = cart.map(item => `
   <div class="order-item">
-    <img src="${escapeHtml((item.image || "").replace(/^\/images\//, "./images/"))}" alt="${escapeHtml(item.name)}"
+    <img src="${escapeHtml(item.image || "")}" alt="${escapeHtml(item.name)}"
       onerror="this.style.background='var(--color-bg-muted)';this.style.objectFit='contain'" />
     <div class="order-item__info">
       <div class="order-item__name">${escapeHtml(item.name)}</div>
