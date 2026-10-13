@@ -296,7 +296,7 @@ function renderProductsTable() {
           </div>
         </div>
       </td>
-      <td>${formatPrice(p.price)}</td>
+      <td>${p.discount > 0 ? `<span style="text-decoration:line-through;color:var(--color-text-light);font-size:0.75rem;">${formatPrice(p.price)}</span><br><span style="color:var(--color-error);font-weight:700;">${formatPrice(p.price * (1 - p.discount / 100))}</span> <span style="font-size:0.7rem;color:var(--color-error);">-${p.discount}%</span>` : formatPrice(p.price)}</td>
       <td>${p.ml ? `${p.ml} ml` : "–"}</td>
       <td>
         <span style="padding:3px 10px;border-radius:100px;font-size:0.75rem;font-weight:600;
@@ -400,6 +400,7 @@ function resetAddForm() {
   document.getElementById("p-ml").value = "";
   document.getElementById("p-stock").value = "";
   document.getElementById("p-category").value = "";
+  document.getElementById("p-discount").value = "";
   addSelectedImages.length = 0;
   buildImagePicker("add-img-picker", addSelectedImages, () => renderSelectedPreview("add-img-preview", addSelectedImages));
   renderSelectedPreview("add-img-preview", addSelectedImages);
@@ -412,6 +413,7 @@ document.getElementById("save-product-btn").addEventListener("click", async () =
   const ml = parseInt(document.getElementById("p-ml").value) || null;
   const stock = parseInt(document.getElementById("p-stock").value) || 0;
   const category = document.getElementById("p-category").value.trim();
+  const discount = parseInt(document.getElementById("p-discount").value) || 0;
 
   if (!name || isNaN(price) || !desc) {
     showToast("Popunite obavezna polja: naziv, cijena i opis.", "error");
@@ -429,6 +431,7 @@ document.getElementById("save-product-btn").addEventListener("click", async () =
       price,
       stock,
       category,
+      discount,
       images: [...addSelectedImages],
       createdAt: serverTimestamp()
     };
@@ -461,6 +464,7 @@ function openEdit(id) {
   document.getElementById("modal-ml").value = p.ml || "";
   document.getElementById("modal-stock").value = p.stock ?? 0;
   document.getElementById("modal-category").value = p.category || "";
+  document.getElementById("modal-discount").value = p.discount || "";
 
   // Populate editSelectedImages with current product images
   editSelectedImages.length = 0;
@@ -476,6 +480,7 @@ function openEdit(id) {
     const ml = parseInt(document.getElementById("modal-ml").value) || null;
     const stock = parseInt(document.getElementById("modal-stock").value) || 0;
     const category = document.getElementById("modal-category").value.trim();
+    const discount = parseInt(document.getElementById("modal-discount").value) || 0;
     if (!name || isNaN(price)) { showToast("Naziv i cijena su obavezni.", "error"); return; }
 
     const btn = document.getElementById("save-edit-btn");
@@ -489,6 +494,7 @@ function openEdit(id) {
         price,
         stock,
         category,
+        discount,
         images: [...editSelectedImages]
       };
       if (ml) updateData.ml = ml;

@@ -100,13 +100,21 @@ function createCard(p) {
   const outOfStock = p.stock <= 0;
   const lowStock = p.stock > 0 && p.stock <= 5;
   const isNew = p.createdAt && (Date.now() - p.createdAt.toMillis() < 7 * 24 * 60 * 60 * 1000);
+  const hasDiscount = p.discount > 0;
+  const discountedPrice = hasDiscount ? p.price * (1 - p.discount / 100) : p.price;
   const mlDisplay = p.ml ? `<span style="font-size:0.72rem;color:var(--color-text-light);font-weight:400;margin-left:4px;">(${p.ml} ml)</span>` : "";
+
+  let badge = "";
+  if (outOfStock) badge = '<span class="product-card__badge badge--out">Nema na zalihi</span>';
+  else if (hasDiscount) badge = `<span class="product-card__badge badge--sale">-${p.discount}%</span>`;
+  else if (lowStock) badge = '<span class="product-card__badge badge--low">Malo na zalihi</span>';
+  else if (isNew) badge = '<span class="product-card__badge badge--new">Novo</span>';
 
   const card = document.createElement("div");
   card.className = "product-card";
   card.innerHTML = `
     <div class="product-card__image-wrap">
-      ${outOfStock ? '<span class="product-card__badge badge--out">Nema na zalihi</span>' : lowStock ? '<span class="product-card__badge badge--low">Malo na zalihi</span>' : isNew ? '<span class="product-card__badge badge--new">Novo</span>' : ""}
+      ${badge}
       <img src="${escapeHtml((p.images?.[0] || "").replace(/^\/images\//, "./images/"))}" alt="${escapeHtml(p.name)}" loading="lazy"
         onerror="this.style.display='none';this.parentElement.style.background='var(--color-bg-muted)'" />
     </div>
@@ -114,7 +122,7 @@ function createCard(p) {
       <div class="product-card__name">${escapeHtml(p.name)}${mlDisplay}</div>
       <div class="product-card__desc">${escapeHtml(p.description || "")}</div>
       <div class="product-card__footer">
-        <span class="product-card__price">${formatPrice(p.price)}</span>
+        <span class="product-card__price">${hasDiscount ? `<span class="price-old">${formatPrice(p.price)}</span> <span class="price-new">${formatPrice(discountedPrice)}</span>` : formatPrice(p.price)}</span>
         <button class="product-card__add" data-id="${p.id}" aria-label="Dodaj u korpu" ${outOfStock ? "disabled" : ""}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
         </button>
@@ -126,7 +134,7 @@ function createCard(p) {
     if (e.target.closest(".product-card__add")) {
       e.stopPropagation();
       if (!outOfStock) {
-        addToCart(p, 1);
+        addToCart({ ...p, price: discountedPrice }, 1);
         showToast(`${p.name} dodano u korpu`);
       }
       return;

@@ -32,6 +32,8 @@ function renderProduct(p) {
   const images = p.images?.length ? p.images : [];
   const outOfStock = p.stock <= 0;
   const lowStock = p.stock > 0 && p.stock <= 5;
+  const hasDiscount = p.discount > 0;
+  const discountedPrice = hasDiscount ? p.price * (1 - p.discount / 100) : p.price;
   const mlDisplay = p.ml ? ` <span style="font-size:0.9rem;font-weight:400;color:var(--color-text-muted);">(${p.ml} ml)</span>` : "";
 
   const stockBadge = outOfStock
@@ -58,7 +60,7 @@ function renderProduct(p) {
       <div class="product-info">
         ${p.category ? `<div class="product-info__category">${escapeHtml(p.category)}</div>` : ""}
         <h1 class="product-info__name heading-serif">${escapeHtml(p.name)}${mlDisplay}</h1>
-        <div class="product-info__price">${formatPrice(p.price)}</div>
+        <div class="product-info__price">${hasDiscount ? `<span class="price-old" style="font-size:1rem;">${formatPrice(p.price)}</span> <span class="price-new">${formatPrice(discountedPrice)}</span> <span class="discount-badge">-${p.discount}%</span>` : formatPrice(p.price)}</div>
         <div class="product-info__divider"></div>
         <p class="product-info__desc">${escapeHtml(p.description || "").replace(/\n/g, "<br>")}</p>
         ${stockBadge}
@@ -101,7 +103,7 @@ function renderProduct(p) {
     document.getElementById("qty-minus").addEventListener("click", () => { if (parseInt(qi.value) > 1) qi.value--; });
     document.getElementById("qty-plus").addEventListener("click", () => { if (parseInt(qi.value) < p.stock) qi.value++; });
     document.getElementById("atc-btn").addEventListener("click", () => {
-      addToCart(p, Math.max(1, Math.min(parseInt(qi.value) || 1, p.stock)));
+      addToCart({ ...p, price: discountedPrice }, Math.max(1, Math.min(parseInt(qi.value) || 1, p.stock)));
       showToast(`${p.name} dodano u korpu`);
     });
   }
