@@ -109,7 +109,8 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
 
     // Use transaction to ensure stock is updated atomically
     await runTransaction(db, async (transaction) => {
-      // First verify and update stock for all products
+      // First read ALL products (Firestore requires all reads before writes)
+      const stocks = [];
       for (const item of cart) {
         const productRef = doc(db, "products", item.id);
         const productDoc = await transaction.get(productRef);
@@ -123,10 +124,12 @@ document.getElementById("checkout-form").addEventListener("submit", async (e) =>
           throw new Error(`Nema dovoljno na zalihi za ${item.name}. Dostupno: ${currentStock}`);
         }
 
-        // Update stock
-        transaction.update(productRef, {
-          stock: currentStock - item.quantity
-        });
+        stocks.push({ ref: productRef, newStock: currentStock - item.quantity });
+      }
+
+      // Now write all updates
+      for (const s of stocks) {
+        transaction.update(s.ref, { stock: s.newStock });
       }
 
       // Create the order after stock validation
