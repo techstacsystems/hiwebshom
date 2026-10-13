@@ -315,6 +315,26 @@
   </div>
 </div>
 
+<!-- DELETE ORDER MODAL -->
+<div class="modal-overlay" id="delete-order-modal">
+  <div class="modal" style="max-width:380px;">
+    <div class="modal-header">
+      <h3>Obriši narudžbu</h3>
+      <button class="modal-close" id="close-delete-order-modal">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+    <p style="color:var(--color-text-muted);font-size:0.88rem;line-height:1.65;">
+      Jeste li sigurni da želite obrisati ovu narudžbu? Ova akcija je nepovratna.
+    </p>
+    <input type="hidden" id="delete-order-id" />
+    <div class="modal-footer">
+      <button class="btn btn-outline" id="cancel-delete-order-btn">Otkaži</button>
+      <button class="btn btn-danger" id="confirm-delete-order-btn">Obriši</button>
+    </div>
+  </div>
+</div>
+
 <script type="module" src="./js/admin.js"></script>
 </body>
 </html>
